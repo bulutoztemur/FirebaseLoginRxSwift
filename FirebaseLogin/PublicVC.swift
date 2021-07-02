@@ -12,23 +12,6 @@ import WidgetKit
 
 class PublicVC: UIViewController {
     
-    
-    struct WidgetContent: TimelineEntry, Codable {
-        var date: Date
-        let imageURL: String
-        let title: String
-        let explanation: String
-    }
-
-    
-    var contents: [WidgetContent] = [] {
-      didSet {
-        //writeContents()
-      }
-
-    }
-
-    
     var videoPlayer:AVPlayer?
     var videoPlayerLayer:AVPlayerLayer?
     
@@ -66,37 +49,6 @@ class PublicVC: UIViewController {
         setupView()
         setupConstraints()
     }
-    
-    func writeContents() {
-        
-        var arr: [WidgetContent] = []
-        
-        let entry = WidgetContent(date: Date(), imageURL: "https://chatbot.denizbank.com/Content/files/Denizbank/Gorseller/Kolas.png", title: "AAATimeline", explanation: "Timeline")
-        let entry2 = WidgetContent(date: Date(), imageURL: "https://chatbot.denizbank.com/Content/files/Denizbank/Gorseller/Kolas.png", title: "AAATimeline2", explanation: "Timeline")
-        let entry3 = WidgetContent(date: Date(), imageURL: "https://chatbot.denizbank.com/Content/files/Denizbank/Gorseller/Kolas.png", title: "AAATimeline3", explanation: "Timeline")
-
-        arr.append(entry)
-        arr.append(entry2)
-        arr.append(entry3)
-
-        contents = arr
-
-      //let widgetContents = contents
-      
-      let archiveURL = FileManager.sharedContainerURL()
-        .appendingPathComponent("contents.json")
-      print(">>> \(archiveURL)")
-      let encoder = JSONEncoder()
-      if let dataToSave = try? encoder.encode(contents) {
-        do {
-          try dataToSave.write(to: archiveURL)
-        } catch {
-          print("Error: Can't write contents")
-          return
-        }
-      }
-    }
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -186,13 +138,4 @@ class PublicVC: UIViewController {
         self.videoPlayerLayer = nil
     }
 
-}
-
-
-extension FileManager {
-  static func sharedContainerURL() -> URL {
-    return FileManager.default.containerURL(
-      forSecurityApplicationGroupIdentifier: "group.com.bulutoztemur.widget.contents"
-    )!
-  }
 }
